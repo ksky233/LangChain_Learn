@@ -1,0 +1,5 @@
+核心围绕查漏补缺与细节知识点，比如：
+
+LangChainV1版本的中间件给你还需要更细致的学习
+
+LangChain拓展包LangChain-Dev-Utils的学习
