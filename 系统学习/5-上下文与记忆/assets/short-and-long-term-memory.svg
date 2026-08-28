@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="760" viewBox="0 0 1600 760" role="img" aria-labelledby="title desc">
+  <title id="title">短期记忆与长期记忆的边界</title>
+  <desc id="desc">左侧展示 thread 与 checkpointer 保存的短期记忆，右侧展示 Store 保存的跨会话长期记忆，中间为 Agent 读取和写入两类记忆。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#60705d"/>
+    </marker>
+    <style>
+      .bg { fill: #fbf5e9; }
+      .panel { fill: #fffdf8; stroke: #d9cdb9; stroke-width: 2; }
+      .sage { fill: #edf0e4; stroke: #80906f; stroke-width: 2; }
+      .orange { fill: #f9e8cf; stroke: #c98243; stroke-width: 2; }
+      .ink { fill: #30342e; font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif; }
+      .title { font-size: 33px; font-weight: 700; }
+      .heading { font-size: 23px; font-weight: 700; }
+      .body { font-size: 18px; }
+      .small { font-size: 16px; }
+      .line { stroke: #60705d; stroke-width: 3; fill: none; marker-end: url(#arrow); }
+      .dash { stroke: #9b8e7b; stroke-width: 2; stroke-dasharray: 8 7; fill: none; }
+    </style>
+  </defs>
+  <rect class="bg" width="1600" height="760" rx="16"/>
+  <text x="800" y="62" text-anchor="middle" class="ink title">记忆的两条边界：同一会话的连续性，与跨会话的用户事实</text>
+
+  <rect x="55" y="115" width="520" height="510" rx="16" class="panel"/>
+  <text x="315" y="160" text-anchor="middle" class="ink heading">短期记忆：thread-scoped</text>
+  <text x="315" y="190" text-anchor="middle" class="ink small">同一个 thread_id 内的消息与图状态</text>
+  <rect x="105" y="226" width="420" height="190" rx="12" class="sage"/>
+  <text x="132" y="262" class="ink heading">Agent State</text>
+  <rect x="132" y="284" width="366" height="31" rx="6" fill="#fffdf8" stroke="#d9cdb9"/>
+  <text x="150" y="306" class="ink small">HumanMessage：我喜欢意大利菜</text>
+  <rect x="132" y="326" width="366" height="31" rx="6" fill="#fffdf8" stroke="#d9cdb9"/>
+  <text x="150" y="348" class="ink small">AIMessage：已记录你的偏好</text>
+  <rect x="132" y="368" width="366" height="31" rx="6" fill="#fffdf8" stroke="#d9cdb9"/>
+  <text x="150" y="390" class="ink small">工具结果 · 中间状态 · 当前任务</text>
+  <path d="M315 416 L315 458" class="line"/>
+  <rect x="145" y="462" width="340" height="98" rx="12" class="orange"/>
+  <text x="315" y="500" text-anchor="middle" class="ink heading">Checkpointer</text>
+  <text x="315" y="529" text-anchor="middle" class="ink small">每个图步骤保存 checkpoint 快照</text>
+  <text x="315" y="551" text-anchor="middle" class="ink small">用同一 thread_id 恢复与续聊</text>
+  <text x="315" y="595" text-anchor="middle" class="ink small">范围：一个会话 / 一个 thread</text>
+
+  <rect x="650" y="248" width="300" height="225" rx="18" class="orange"/>
+  <text x="800" y="298" text-anchor="middle" class="ink heading">Agent / 图节点</text>
+  <text x="800" y="336" text-anchor="middle" class="ink body">读取当前任务所需信息</text>
+  <text x="800" y="370" text-anchor="middle" class="ink body">调用模型与工具</text>
+  <text x="800" y="404" text-anchor="middle" class="ink body">选择何时写入记忆</text>
+  <path d="M575 370 L650 370" class="line"/>
+  <path d="M950 370 L1025 370" class="line"/>
+  <path d="M750 473 C735 540 580 580 485 580" class="dash"/>
+  <path d="M850 473 C870 540 1035 580 1120 580" class="dash"/>
+  <text x="800" y="518" text-anchor="middle" class="ink small">虚线：按业务策略写回</text>
+
+  <rect x="1025" y="115" width="520" height="510" rx="16" class="panel"/>
+  <text x="1285" y="160" text-anchor="middle" class="ink heading">长期记忆：cross-thread</text>
+  <text x="1285" y="190" text-anchor="middle" class="ink small">跨会话共享，按 namespace 和 key 组织</text>
+  <rect x="1075" y="226" width="420" height="250" rx="12" class="sage"/>
+  <text x="1102" y="263" class="ink heading">Store</text>
+  <text x="1102" y="293" class="ink small">namespace = (user_id, "memories")</text>
+  <rect x="1102" y="317" width="366" height="42" rx="6" fill="#fffdf8" stroke="#d9cdb9"/>
+  <text x="1120" y="344" class="ink small">key: food_preference</text>
+  <rect x="1102" y="370" width="366" height="42" rx="6" fill="#fffdf8" stroke="#d9cdb9"/>
+  <text x="1120" y="397" class="ink small">value: 偏好意大利菜</text>
+  <rect x="1102" y="423" width="366" height="32" rx="6" fill="#fffdf8" stroke="#d9cdb9"/>
+  <text x="1120" y="445" class="ink small">可按 key 查询或语义搜索</text>
+  <text x="1285" y="525" text-anchor="middle" class="ink small">范围：同一用户或应用的多个 thread</text>
+  <text x="1285" y="553" text-anchor="middle" class="ink small">不会自动进入提示词，需主动检索并注入</text>
+
+  <rect x="55" y="665" width="1490" height="54" rx="10" fill="#f3eee3" stroke="#d9cdb9" stroke-width="2"/>
+  <text x="82" y="699" class="ink body">一句话：</text>
+  <text x="190" y="699" class="ink body">Checkpointer 保存“这个会话走到哪里”；Store 保存“跨会话仍值得记住什么”。二者都不是自动记忆，应用必须定义写入、检索与注入策略。</text>
+</svg>

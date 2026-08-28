@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="820" viewBox="0 0 1600 820" role="img" aria-labelledby="title desc">
+  <title id="title">上下文工程：从信息源到模型调用</title>
+  <desc id="desc">展示运行期上下文、会话状态与长期 Store 经筛选、检索、压缩后组成模型上下文，并由模型和工具继续更新状态与 Store 的过程。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#60705d"/>
+    </marker>
+    <style>
+      .bg { fill: #fbf5e9; }
+      .panel { fill: #fffdf8; stroke: #d9cdb9; stroke-width: 2; }
+      .soft { fill: #edf0e4; stroke: #80906f; stroke-width: 2; }
+      .warm { fill: #f9e8cf; stroke: #c98243; stroke-width: 2; }
+      .ink { fill: #30342e; font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif; }
+      .title { font-size: 34px; font-weight: 700; }
+      .heading { font-size: 23px; font-weight: 700; }
+      .body { font-size: 18px; }
+      .small { font-size: 16px; }
+      .line { stroke: #60705d; stroke-width: 3; fill: none; marker-end: url(#arrow); }
+      .dash { stroke: #9b8e7b; stroke-width: 2; stroke-dasharray: 7 8; fill: none; }
+    </style>
+  </defs>
+  <rect class="bg" width="1600" height="820" rx="16"/>
+  <text x="800" y="64" text-anchor="middle" class="ink title">上下文工程：为每一次模型调用组装“恰好需要”的信息</text>
+  <text x="800" y="96" text-anchor="middle" class="ink body">不是把所有历史塞进提示词，而是按任务、时效、权限与 token 预算进行选择</text>
+
+  <rect x="55" y="150" width="360" height="505" rx="14" class="panel"/>
+  <text x="235" y="195" text-anchor="middle" class="ink heading">上下文来源</text>
+  <rect x="84" y="225" width="302" height="102" rx="10" class="soft"/>
+  <text x="105" y="258" class="ink heading">Runtime Context</text>
+  <text x="105" y="288" class="ink small">用户 ID · 权限 · API 客户端</text>
+  <text x="105" y="312" class="ink small">静态依赖，仅本次运行有效</text>
+  <rect x="84" y="355" width="302" height="120" rx="10" class="warm"/>
+  <text x="105" y="389" class="ink heading">State / 短期记忆</text>
+  <text x="105" y="419" class="ink small">消息历史 · 工具结果 · 中间状态</text>
+  <text x="105" y="444" class="ink small">同一 thread 中持续演化</text>
+  <rect x="84" y="503" width="302" height="120" rx="10" class="soft"/>
+  <text x="105" y="537" class="ink heading">Store / 长期记忆</text>
+  <text x="105" y="567" class="ink small">偏好 · 用户事实 · 业务知识</text>
+  <text x="105" y="592" class="ink small">跨 thread，按 namespace 隔离</text>
+
+  <path d="M415 276 C475 276 470 314 520 314" class="line"/>
+  <path d="M415 415 C475 415 470 391 520 391" class="line"/>
+  <path d="M415 563 C475 563 470 468 520 468" class="line"/>
+
+  <rect x="520" y="245" width="350" height="300" rx="14" class="panel"/>
+  <text x="695" y="288" text-anchor="middle" class="ink heading">上下文组装层</text>
+  <rect x="560" y="318" width="270" height="45" rx="8" class="soft"/>
+  <text x="695" y="348" text-anchor="middle" class="ink body">读取与权限过滤</text>
+  <rect x="560" y="382" width="270" height="45" rx="8" class="warm"/>
+  <text x="695" y="412" text-anchor="middle" class="ink body">检索、排序与去重</text>
+  <rect x="560" y="446" width="270" height="45" rx="8" class="soft"/>
+  <text x="695" y="476" text-anchor="middle" class="ink body">摘要、裁剪与格式化</text>
+  <text x="695" y="520" text-anchor="middle" class="ink small">Middleware / 节点 / 工具共同实现</text>
+
+  <path d="M870 395 L955 395" class="line"/>
+  <rect x="955" y="150" width="340" height="505" rx="14" class="panel"/>
+  <text x="1125" y="195" text-anchor="middle" class="ink heading">Model Context（本次输入）</text>
+  <rect x="990" y="225" width="270" height="54" rx="8" class="warm"/>
+  <text x="1125" y="259" text-anchor="middle" class="ink body">System Prompt / 指令</text>
+  <rect x="990" y="299" width="270" height="54" rx="8" class="soft"/>
+  <text x="1125" y="333" text-anchor="middle" class="ink body">相关消息与近期状态</text>
+  <rect x="990" y="373" width="270" height="54" rx="8" class="warm"/>
+  <text x="1125" y="407" text-anchor="middle" class="ink body">检索出的长期记忆</text>
+  <rect x="990" y="447" width="270" height="54" rx="8" class="soft"/>
+  <text x="1125" y="481" text-anchor="middle" class="ink body">可用工具与输出格式</text>
+  <path d="M1125 530 L1125 573" class="line"/>
+  <rect x="1045" y="576" width="160" height="50" rx="25" class="warm"/>
+  <text x="1125" y="609" text-anchor="middle" class="ink heading">LLM 调用</text>
+
+  <path d="M1295 396 C1365 396 1360 302 1415 302" class="line"/>
+  <rect x="1415" y="236" width="145" height="130" rx="14" class="soft"/>
+  <text x="1488" y="282" text-anchor="middle" class="ink heading">工具执行</text>
+  <text x="1488" y="313" text-anchor="middle" class="ink small">外部查询</text>
+  <text x="1488" y="338" text-anchor="middle" class="ink small">写入 / 读取</text>
+  <path d="M1488 366 C1488 486 1340 560 1295 560" class="line"/>
+  <path d="M1415 577 C1360 577 1358 642 1295 642" class="dash"/>
+  <text x="1390" y="682" text-anchor="middle" class="ink small">工具结果写回 State；</text>
+  <text x="1390" y="706" text-anchor="middle" class="ink small">必要时提炼后写入 Store</text>
+
+  <rect x="55" y="704" width="1240" height="67" rx="11" fill="#f3eee3" stroke="#d9cdb9" stroke-width="2"/>
+  <text x="82" y="746" class="ink body">关键区分：</text>
+  <text x="200" y="746" class="ink body">模型上下文是“这一次发给 LLM 的输入”；State 和 Store 是可读取、可写入的数据源。前者可瞬时编辑，后者是否持久取决于写入方式。</text>
+</svg>
